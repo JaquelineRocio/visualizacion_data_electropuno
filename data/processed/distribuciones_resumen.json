@@ -1,0 +1,24 @@
+{
+  "variable": "kwh_cliente BT5B",
+  "mejor_distribucion": "Log-normal",
+  "parametros": [
+    1.2730391235413123,
+    0.0,
+    17.920906664059977
+  ],
+  "scipy_dist": "lognorm",
+  "umbral_anomalia": [
+    0.6749184045109883,
+    475.8484781499545
+  ],
+  "indicadores": {
+    "P(X ≤ 30 kWh) – bajo consumo": 0.6571597700635509,
+    "P(X ≤ 100 kWh) – rango FOSE": 0.9115674956871431,
+    "P(X > 300 kWh) – alto consumo": 0.013433155391064103,
+    "Mediana (kWh)": 17.920906664059977,
+    "Percentil 90 (kWh)": 91.60018424931114,
+    "Percentil 99 (kWh)": 346.36733023316236,
+    "Media (kWh)": 40.297212845228884
+  },
+  "kruskal_p": 5.459864089005563e-258
+}

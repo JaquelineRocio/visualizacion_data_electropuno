@@ -1,0 +1,13 @@
+﻿bloque,kpi,valor,unidad,var_vs_mes_anterior_%,formula,pregunta_gerencial
+Comercial,Facturación mensual,34968837.5,S/ por mes,14.351856086338206,Σ M_Total / n° de meses,¿Cuánto factura la empresa al mes?
+Comercial,Energía facturada,24772.823630000003,MWh/mes,0.5115598897001522,Σ CEA / 1000 / n° de meses,¿Cuánta energía vendemos?
+Comercial,Precio medio en BT,1.1001321638383363,S/ por kWh,1.1553596026514799,Σ M_Total BT / Σ CEA BT (solo registros con consumo),¿Cuánto se cobra en promedio por cada kWh en baja tensión?
+Clientes y consumo,Clientes atendidos,366818.0,suministros,0.2560941945605265,Σ Clientes / n° de meses,¿A cuántos suministros atendemos?
+Clientes y consumo,Ingreso medio por cliente,95.33021144000567,S/ por mes,14.059755673727869,Facturación / Clientes,¿Cuánto aporta en promedio cada cliente?
+Clientes y consumo,Consumo medio residencial,52.856362000264184,kWh/cliente BT5B,0.6430745475936228,Σ CEA BT5B / Σ Clientes BT5B,¿Cuánto consume un hogar típico?
+Riesgo y concentración,Dependencia de grandes clientes,33.73622500319034,% de la facturación en MT,30.0621975835858,Σ M_Total media tensión / Σ M_Total × 100,¿Qué parte del ingreso depende de minería/industria (media tensión)?
+Riesgo y concentración,Concentración territorial,80.62088023372239,% de la facturación en 10 distritos,0.7573558374687497,Facturación de los 10 distritos mayores / Facturación total × 100,¿Qué tan concentrado está el negocio en pocos distritos?
+Riesgo y concentración,Suministros sin consumo,0.16247839528049332,% de clientes,0.08040024178818311,Clientes en registros con CEA = 0 / Clientes × 100,"¿Cuántos suministros no registran consumo (inactivos, medidor, posible hurto)?"
+Control y social,Facturación bajo revisión,229067.9,S/ en registros con alerta,981.2587029685675,Σ M_Total de registros marcados como anómalos (Notebook 3),¿Cuánto dinero está en registros con consumo o precio atípico?
+Control y social,Hogares en rango FOSE,98.19946504050722,% clientes BT5B ≤ 100 kWh,-0.013229330437156057,Clientes BT5B con consumo ≤ 100 kWh / Clientes BT5B × 100,¿Qué parte de los hogares recibe el subsidio FOSE (impacto regulatorio)?
+Control y social,Hogares de muy bajo consumo,34.349407802042975,% clientes BT5B ≤ 30 kWh,-0.734752227887594,Clientes BT5B con consumo ≤ 30 kWh / Clientes BT5B × 100,¿Dónde hay posible pobreza energética o subregistro?
