@@ -47,12 +47,14 @@ python app.py        # abrir http://127.0.0.1:8050
 
 ## Dashboard
 - **Filtros:** periodo, provincia, grupo tarifario e indicador del mapa.
-- **Resumen gerencial:** 12 KPIs en 4 bloques, hallazgos clave, concentración del ingreso y ficha técnica.
+- **Resumen gerencial:** gráfico principal de energía mensual; estacionalidad comparable entre años; consumo por provincia y grupo tarifario; facturación y suministros por mes; cuatro KPIs principales y ocho indicadores complementarios desplegables, más hallazgos y concentración del ingreso.
 - **Territorio:** mapa coroplético por distrito (clic → ficha del distrito), top 15 y facturación por provincia.
 - **Tarifas:** participación por grupo tarifario, precio efectivo por tarifa, treemap provincia → distrito.
 - **Segmentos:** clusters K-Means de distritos (mapa, burbujas y perfil).
 - **Distribución y anomalías:** histograma con log-normal ajustada, IC 95 % bootstrap por provincia, tabla de alertas.
 - **Evolución temporal:** series mensuales por provincia (requiere ≥ 2 meses).
 - Botón para **descargar** los datos filtrados en CSV.
+
+La comparación entre instalaciones nuevas y antiguas requiere un archivo de altas con identificador de suministro y fecha de instalación. Los datos abiertos de consumo actuales están agregados y no permiten separar instalaciones por antigüedad; el dashboard no los presenta como si fueran cohortes de instalaciones.
 
 Los mapas del dashboard son SVG (`px.choropleth`): no necesitan internet ni WebGL.

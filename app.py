@@ -35,6 +35,7 @@ nombre_geo = (df_all.groupby("geo_id")["distrito"].unique()
 PERIODOS = sorted(df_all["periodo_cod"].unique())
 PROVINCIAS = sorted(df_all["provincia"].unique())
 GRUPOS = ["BT5B residencial", "BT5 otras", "BT potencia", "Media tensión"]
+MESES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
 
 # ----------------------------------------------------------------------------------------------
 # Estilo (paleta validada: secuencial azul para magnitudes, 3 categóricas para segmentos)
@@ -164,7 +165,33 @@ app.layout = html.Div([
     dcc.Tabs(className="tabs", children=[
         dcc.Tab(label="🎯 Resumen gerencial", children=[
             html.Div(id="resumen-periodo", className="periodo"),
-            html.Div(id="bloques-kpi", className="bloques"),
+            html.Div(id="kpis-principales", className="kpis-principales"),
+            html.Details([
+                html.Summary("Ver los otros 8 indicadores"),
+                html.Div(id="kpis-complementarios", className="kpis-complementarios"),
+            ], className="kpis-detalles"),
+            html.Div([
+                html.Div([
+                    html.Div("TENDENCIA DEL SISTEMA", className="seccion-etiqueta"),
+                    html.H2("Consumo de energía por periodo"),
+                    html.P("¿Está subiendo o bajando el consumo? Cada punto representa la energía total del mes.",
+                           className="nota"),
+                ], className="seccion-cabecera"),
+                dcc.Graph(id="g-resumen-consumo", style={"height": "430px"}),
+            ], className="tarjeta grafico-principal"),
+            html.Div([
+                tarjeta(dcc.Graph(id="g-estacional", style={"height": "350px"}), "col-4"),
+                tarjeta(dcc.Graph(id="g-resumen-provincia", style={"height": "350px"}), "col-4"),
+                tarjeta(dcc.Graph(id="g-resumen-tarifa", style={"height": "350px"}), "col-4"),
+            ], className="fila"),
+            html.Div([
+                tarjeta(dcc.Graph(id="g-resumen-facturacion", style={"height": "340px"}), "col-6"),
+                tarjeta(dcc.Graph(id="g-resumen-clientes", style={"height": "340px"}), "col-6"),
+            ], className="fila"),
+            html.Div([
+                html.Strong("Comparativa de instalaciones nuevas y antiguas pendiente de datos de altas. "),
+                "El consumo disponible está agregado y no contiene identificador de suministro ni fecha de instalación.",
+            ], className="aviso-datos"),
             html.Div([
                 tarjeta([html.H3("Hallazgos clave para la Gerencia"), html.Ul(id="hallazgos", className="hallazgos")],
                         "col-5"),
@@ -240,12 +267,143 @@ FILTROS = [Input("f-periodo", "value"), Input("f-provincia", "value"), Input("f-
 COLOR_BUENO, COLOR_MALO, COLOR_NEUTRO = "#1a7f37", "#b42318", "#52514e"
 
 
+@app.callback(Output("g-resumen-consumo", "figure"), FILTROS)
+def resumen_consumo(per, prov, grp):
+    d = filtrar(per, prov, grp)
+    if d.empty:
+        return vacio()
+    m = d.groupby("periodo", as_index=False)["consumo_kwh"].sum().sort_values("periodo")
+    calendario = pd.date_range(m["periodo"].min(), m["periodo"].max(), freq="MS")
+    serie = m.set_index("periodo")["consumo_kwh"].reindex(calendario) / 1000
+    fig = go.Figure(go.Scatter(
+        x=serie.index, y=serie, mode="lines+markers", name="Energía",
+        line=dict(color=AZUL, width=3), marker=dict(color="#ffffff", size=7, line=dict(color=AZUL, width=2)),
+        fill="tozeroy", fillcolor="rgba(42,120,214,0.10)",
+        hovertemplate="%{x|%b %Y}<br>%{y:,.0f} MWh<extra></extra>",
+        connectgaps=False,
+    ))
+    fig.update_layout(
+        title="Energía facturada mensual",
+        yaxis_title="MWh", xaxis_title="",
+        hovermode="x unified",
+        showlegend=False,
+        margin=dict(l=16, r=20, t=48, b=12),
+    )
+    fig.update_xaxes(dtick="M3", tickformat="%b\n%Y")
+    return fig
+
+
+@app.callback(Output("g-estacional", "figure"), FILTROS)
+def perfil_estacional(per, prov, grp):
+    d = filtrar(per, prov, grp)
+    if d.empty:
+        return vacio()
+    mensual = d.groupby(["anio", "mes"], as_index=False)["consumo_kwh"].sum()
+    mensual["consumo_mwh"] = mensual["consumo_kwh"] / 1000
+    mensual["mes_nombre"] = mensual["mes"].map(lambda mes: MESES[int(mes) - 1])
+    fig = px.line(mensual, x="mes_nombre", y="consumo_mwh", color="anio", markers=True,
+                  category_orders={"mes_nombre": MESES},
+                  labels={"mes_nombre": "Mes", "consumo_mwh": "Energía (MWh)", "anio": "Año"},
+                  title="Estacionalidad · compara el mismo mes entre años")
+    fig.update_traces(line=dict(width=2.5), marker=dict(size=7),
+                      hovertemplate="%{x}<br>%{y:,.0f} MWh<extra></extra>")
+    fig.update_yaxes(tickformat=",.0f", rangemode="tozero")
+    return fig
+
+
+@app.callback(Output("g-resumen-provincia", "figure"), FILTROS)
+def resumen_provincia(per, prov, grp):
+    d = filtrar(per, prov, grp)
+    if d.empty:
+        return vacio()
+    m = indicadores(d, ["provincia"]).sort_values("consumo_kwh")
+    m["energia_mwh"] = m["consumo_kwh"] / 1000
+    fig = px.bar(m, x="energia_mwh", y="provincia", orientation="h",
+                 labels={"energia_mwh": "MWh/mes promedio", "provincia": ""},
+                 title="Consumo promedio mensual por provincia")
+    fig.update_traces(marker_color=AZUL, marker_cornerradius=4,
+                      hovertemplate="%{y}<br>%{x:,.0f} MWh/mes<extra></extra>")
+    fig.update_xaxes(tickformat=",.0f")
+    return fig
+
+
+@app.callback(Output("g-resumen-tarifa", "figure"), FILTROS)
+def resumen_tarifa(per, prov, grp):
+    d = filtrar(per, prov, grp)
+    if d.empty:
+        return vacio()
+    n = max(d["periodo_cod"].nunique(), 1)
+    m = (d.groupby("grupo_tarifa", as_index=False)["consumo_kwh"].sum()
+         .sort_values("consumo_kwh"))
+    m["energia_mwh"] = m["consumo_kwh"] / n / 1000
+    fig = px.bar(m, x="energia_mwh", y="grupo_tarifa", orientation="h",
+                 color="grupo_tarifa", color_discrete_map=dict(zip(GRUPOS, CATEG)),
+                 category_orders={"grupo_tarifa": GRUPOS},
+                 labels={"energia_mwh": "MWh/mes promedio", "grupo_tarifa": ""},
+                 title="Consumo promedio por grupo tarifario")
+    fig.update_traces(marker_line_color="white", marker_line_width=1,
+                      hovertemplate="%{y}<br>%{x:,.0f} MWh/mes<extra></extra>")
+    fig.update_layout(showlegend=False)
+    fig.update_xaxes(tickformat=",.0f")
+    return fig
+
+
+@app.callback(Output("g-resumen-facturacion", "figure"), FILTROS)
+def resumen_facturacion(per, prov, grp):
+    d = filtrar(per, prov, grp)
+    if d.empty:
+        return vacio()
+    m = d.groupby("periodo", as_index=False)["monto_soles"].sum().sort_values("periodo")
+    fig = px.bar(m, x="periodo", y="monto_soles",
+                 labels={"periodo": "", "monto_soles": "Facturación (S/)"},
+                 title="Facturación total por mes")
+    fig.update_traces(marker_color="#1baf7a", marker_cornerradius=4,
+                      hovertemplate="%{x|%b %Y}<br>S/ %{y:,.0f}<extra></extra>")
+    fig.update_xaxes(dtick="M3", tickformat="%b\n%Y")
+    fig.update_yaxes(tickformat=",.3s", rangemode="tozero")
+    return fig
+
+
+@app.callback(Output("g-resumen-clientes", "figure"), FILTROS)
+def resumen_clientes(per, prov, grp):
+    d = filtrar(per, prov, grp)
+    if d.empty:
+        return vacio()
+    m = d.groupby("periodo", as_index=False)["clientes"].sum().sort_values("periodo")
+    m["variacion_pct"] = m["clientes"].pct_change() * 100
+    m["variacion_pct"] = m["variacion_pct"].fillna(0)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=m["periodo"], y=m["clientes"], name="Suministros",
+        mode="lines+markers", yaxis="y",
+        line=dict(color="#eda100", width=2.5),
+        marker=dict(color="#eda100", size=6),
+        hovertemplate="%{x|%b %Y}<br>%{y:,.0f} suministros<extra></extra>",
+    ))
+    fig.add_trace(go.Bar(
+        x=m["periodo"], y=m["variacion_pct"], name="Variación mensual",
+        yaxis="y2", marker_color="#2a78d6", opacity=0.55,
+        hovertemplate="%{x|%b %Y}<br>Variación: %{y:+.1f}%<extra></extra>",
+    ))
+    fig.update_layout(
+        title="Suministros atendidos · total y variación mensual",
+        xaxis=dict(title="", dtick="M3", tickformat="%b\n%Y"),
+        yaxis=dict(title="Suministros", tickformat=",.3s", rangemode="tozero"),
+        yaxis2=dict(title="Variación (%)", overlaying="y", side="right", ticksuffix="%",
+                    showgrid=False, zeroline=True, zerolinecolor="#cbd5e1"),
+        hovermode="x unified", showlegend=True,
+        legend=dict(orientation="h", y=-0.22),
+        margin=dict(l=16, r=55, t=48, b=40),
+    )
+    return fig
+
+
 def etiqueta_periodo(p):
     return f"{str(p)[:4]}-{str(p)[4:]}"
 
 
 def tarjeta_kpi(k, valor, var, previo):
-    """Tarjeta de un KPI: valor, variación vs mes anterior (flecha + texto, no solo color) y pregunta."""
+    """Tarjeta breve; la pregunta y la fórmula quedan disponibles al pasar el cursor."""
     sufijo = " %" if k["unidad"].startswith("%") else ""
     prefijo = "S/ " if k["unidad"].startswith("S/") and "por kWh" not in k["unidad"] else ""
     if previo is None:
@@ -262,16 +420,16 @@ def tarjeta_kpi(k, valor, var, previo):
         html.Div(f"{prefijo}{fmt(valor, k['fmt'])}{sufijo}", className="kpi-valor"),
         html.Div(k["unidad"], className="kpi-sub"),
         delta,
-        html.Div(k["pregunta"], className="kpi-pregunta"),
-    ], className="kpi", title=f"Fórmula: {k['formula']}")
+    ], className="kpi", title=f"{k['pregunta']} Fórmula: {k['formula']}")
 
 
-@app.callback([Output("resumen-periodo", "children"), Output("bloques-kpi", "children"),
+@app.callback([Output("resumen-periodo", "children"), Output("kpis-principales", "children"),
+               Output("kpis-complementarios", "children"),
                Output("hallazgos", "children"), Output("g-concentracion", "figure")], FILTROS)
 def resumen_gerencial(per, prov, grp):
     d = filtrar(per, prov, grp)
     if d.empty:
-        return "Sin datos para los filtros seleccionados", [], [], vacio()
+        return "Sin datos para los filtros seleccionados", [], [], [], vacio()
     periodos = sorted(d["periodo_cod"].unique())
     actual, previo = periodos[-1], (periodos[-2] if len(periodos) > 1 else None)
     tabla = kpis.tabla_kpis(d)
@@ -280,12 +438,34 @@ def resumen_gerencial(per, prov, grp):
            f" · comparado con {etiqueta_periodo(previo)}" if previo else " · carga 2+ meses para ver la variación",
            f" · Ámbito: {ambito}"]
 
-    bloques = []
-    for b in kpis.BLOQUES:
-        tarjetas = [tarjeta_kpi(k, tabla.loc[i, "valor"], tabla.loc[i, "var_vs_mes_anterior_%"], previo)
-                    for i, k in enumerate(kpis.CATALOGO) if k["bloque"] == b]
-        bloques.append(html.Div([html.Div(b, className="bloque-titulo"), html.Div(tarjetas, className="kpi-grid")],
-                                className="bloque"))
+    indices_kpi = {k["id"]: i for i, k in enumerate(kpis.CATALOGO)}
+    principales = ["energia_mwh", "clientes", "facturacion", "kwh_residencial"]
+    tarjetas = [
+        tarjeta_kpi(
+            kpis.POR_ID[kpi_id],
+            tabla.loc[indices_kpi[kpi_id], "valor"],
+            tabla.loc[indices_kpi[kpi_id], "var_vs_mes_anterior_%"],
+            previo,
+        )
+        for kpi_id in principales
+    ]
+    complementarios = []
+    for bloque in kpis.BLOQUES:
+        indicadores_bloque = [
+            tarjeta_kpi(
+                k,
+                tabla.loc[i, "valor"],
+                tabla.loc[i, "var_vs_mes_anterior_%"],
+                previo,
+            )
+            for i, k in enumerate(kpis.CATALOGO)
+            if k["bloque"] == bloque and k["id"] not in principales
+        ]
+        if indicadores_bloque:
+            complementarios.append(html.Div([
+                html.Div(bloque, className="bloque-titulo"),
+                html.Div(indicadores_bloque, className="kpi-grid"),
+            ], className="bloque"))
 
     # Hallazgos automáticos (último periodo)
     u = d[d["periodo_cod"] == actual]
@@ -325,7 +505,7 @@ def resumen_gerencial(per, prov, grp):
     fig.update_traces(marker_color=AZUL, marker_cornerradius=4, cliponaxis=False, textposition="outside",
                       text=[f"{a:.1f}%  (acum. {b:.0f}%)" for a, b in zip(t10["pct_fact"], t10["acum"])])
     fig.update_xaxes(range=[0, t10["pct_fact"].max() * 1.45])
-    return cab, bloques, [html.Li(i) for i in items], fig
+    return cab, tarjetas, complementarios, [html.Li(i) for i in items], fig
 
 
 @app.callback(Output("g-mapa", "figure"), FILTROS + [Input("f-metrica", "value")])
