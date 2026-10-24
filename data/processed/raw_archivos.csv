@@ -1,44 +1,44 @@
 ﻿archivo,bytes,formato,periodo,filas,clientes,estado
-Datos Abiertos Mayo 2023.csv,28306769,por suministro,202305,652,338473,usado
-Datos Abiertos Septiembre.csv,28664769,por suministro,202309,657,341641,usado
-Datos abiertos Agosto.csv,28628169,por suministro,202308,657,341197,usado
-DatosAbiertos_ Enero2023.csv,28739700,por suministro,202301,651,336735,usado
-DatosAbiertos_ Marzo2023.csv,28631343,por suministro,202303,653,336987,usado
-DatosAbiertos_Abril2023.csv,28682462,por suministro,202304,653,337449,usado
-DatosAbiertos_Febrero2023.csv,28716651,por suministro,202302,652,336783,usado
-Octubre ELPU 202310.csv,28723596,por suministro,202310,658,342268,usado
-Reporte Datos Abiertos 02-2025_.csv,29694564,por suministro,202506,668,353523,usado
-Reporte Datos Abiertos 03-2025.csv,29489962,por suministro,202503,678,351342,usado
-Reporte Datos Abiertos 04-2025.csv,29585338,por suministro,202504,682,352301,usado
-Reporte Datos Abiertos 06-2025_.csv,29694564,por suministro,202506,668,353523,duplicado (periodo ya cargado)
-Reporte Datos Abiertos 07-2025.csv,29724834,por suministro,202507,666,354038,usado
-Reporte Datos Abiertos 08-2025.csv,29751769,por suministro,202508,665,354237,usado
-Reporte Datos Abiertos 10-2025.csv,29844993,por suministro,202510,661,355536,usado
-Reporte Datos Abiertos 11-2025.csv,29851650,por suministro,202511,658,355637,usado
-Reporte Datos Abiertos 12-2025.csv,29795493,por suministro,202512,655,355035,usado
-ReporteDatosAbiertos  Agosto 2024.csv,29120938,por suministro,202408,671,346807,usado
-ReporteDatosAbiertos  Julio2024.csv,29057998,por suministro,202407,672,346144,usado
-ReporteDatosAbiertos - Marzo 2024.csv,28901783,por suministro,202403,696,344496,usado
-ReporteDatosAbiertos - Octubre 2024.csv,29352016,por suministro,202410,672,349593,usado
-ReporteDatosAbiertos - Setiembre 2024.csv,29350894,por suministro,202409,670,349490,usado
-ReporteDatosAbiertos -Abril 2024.csv,28985293,por suministro,202404,697,345299,usado
-ReporteDatosAbiertos -Mayo 2024.csv,28975337,por suministro,202405,697,345207,usado
-ReporteDatosAbiertos 202411.csv,29385167,por suministro,202411,673,349854,usado
+Datos Abiertos Mayo 2023.csv,27968294,por suministro,202305,652,338473,usado
+Datos Abiertos Septiembre.csv,28323126,por suministro,202309,657,341641,usado
+Datos abiertos Agosto.csv,28286970,por suministro,202308,657,341197,usado
+DatosAbiertos_ Enero2023.csv,28402963,por suministro,202301,651,336735,usado
+DatosAbiertos_ Marzo2023.csv,28294354,por suministro,202303,653,336987,usado
+DatosAbiertos_Abril2023.csv,28345011,por suministro,202304,653,337449,usado
+DatosAbiertos_Febrero2023.csv,28379866,por suministro,202302,652,336783,usado
+Octubre ELPU 202310.csv,28381327,por suministro,202310,658,342268,usado
+Reporte Datos Abiertos 02-2025_.csv,29341040,por suministro,202506,668,353523,usado
+Reporte Datos Abiertos 03-2025.csv,29138619,por suministro,202503,678,351342,usado
+Reporte Datos Abiertos 04-2025.csv,29233036,por suministro,202504,682,352301,usado
+Reporte Datos Abiertos 06-2025_.csv,29341040,por suministro,202506,668,353523,duplicado (periodo ya cargado)
+Reporte Datos Abiertos 07-2025.csv,29370795,por suministro,202507,666,354038,usado
+Reporte Datos Abiertos 08-2025.csv,29397531,por suministro,202508,665,354237,usado
+Reporte Datos Abiertos 10-2025.csv,29489456,por suministro,202510,661,355536,usado
+Reporte Datos Abiertos 11-2025.csv,29496012,por suministro,202511,658,355637,usado
+Reporte Datos Abiertos 12-2025.csv,29440457,por suministro,202512,655,355035,usado
+ReporteDatosAbiertos  Agosto 2024.csv,28774130,por suministro,202408,671,346807,usado
+ReporteDatosAbiertos  Julio2024.csv,28711853,por suministro,202407,672,346144,usado
+ReporteDatosAbiertos - Marzo 2024.csv,28557286,por suministro,202403,696,344496,usado
+ReporteDatosAbiertos - Octubre 2024.csv,29002422,por suministro,202410,672,349593,usado
+ReporteDatosAbiertos - Setiembre 2024.csv,29001403,por suministro,202409,670,349490,usado
+ReporteDatosAbiertos -Abril 2024.csv,28639993,por suministro,202404,697,345299,usado
+ReporteDatosAbiertos -Mayo 2024.csv,28630129,por suministro,202405,697,345207,usado
+ReporteDatosAbiertos 202411.csv,29035312,por suministro,202411,673,349854,usado
 ReporteDatosAbiertos 202412.xlsx,20027400,por suministro,202412,672,350002,usado
-ReporteDatosAbiertos 202501.csv,29069252,por suministro,202501,675,350349,usado
-ReporteDatosAbiertosLibro_202606.csv,725914,agregado (Clientes),202606,654,364911,usado
-ReporteDatosAbiertosLibro_202607.csv,729524,agregado (Clientes),202607,654,365881,usado
-ReporteDatosAbiertosLibro_202608.csv,731007,agregado (Clientes),202608,651,366818,usado
-ReporteDatosAbiertos_202306.csv,28517724,por suministro,202306,653,339870,usado
-ReporteDatosAbiertos_202307.csv,28578628,por suministro,202307,656,340632,usado
-ReporteDatosAbiertos_202311.csv,28762077,por suministro,202311,658,342838,usado
-ReporteDatosAbiertos_202312.csv,28446456,por suministro,202312,657,343081,usado
-ReporteDatosAbiertos_202401.csv,28831223,por suministro,202401,659,343446,usado
-ReporteDatosAbiertos_202402.csv,28882397,por suministro,202402,668,344103,usado
-Reporte_Datos_Abiertos_2026_01.csv,684221,agregado (Clientes),202601,655,355341,usado
+ReporteDatosAbiertos 202501.csv,28718902,por suministro,202501,675,350349,usado
+ReporteDatosAbiertosLibro_202606.csv,716387,agregado (Clientes),202606,654,364911,usado
+ReporteDatosAbiertosLibro_202607.csv,719951,agregado (Clientes),202607,654,365881,usado
+ReporteDatosAbiertosLibro_202608.csv,721413,agregado (Clientes),202608,651,366818,usado
+ReporteDatosAbiertos_202306.csv,28177852,por suministro,202306,653,339870,usado
+ReporteDatosAbiertos_202307.csv,28237994,por suministro,202307,656,340632,usado
+ReporteDatosAbiertos_202311.csv,28419237,por suministro,202311,658,342838,usado
+ReporteDatosAbiertos_202312.csv,28103373,por suministro,202312,657,343081,usado
+ReporteDatosAbiertos_202401.csv,28487775,por suministro,202401,659,343446,usado
+ReporteDatosAbiertos_202402.csv,28538293,por suministro,202402,668,344103,usado
+Reporte_Datos_Abiertos_2026_01.csv,675242,agregado (Clientes),202601,655,355341,usado
 Reporte_Datos_Abiertos_2026_02.csv,687814,agregado (Clientes),202602,654,356488,usado
 Reporte_Datos_Abiertos_2026_03.csv,689187,agregado (Clientes),202603,652,357497,usado
 Reporte_Datos_Abiertos_2026_04.csv,704660,agregado (Clientes),202604,656,360602,usado
 Reporte_Datos_Abiertos_2026_05.csv,724174,agregado (Clientes),202605,654,364219,usado
-reporte Datos Abiertos 05-2025.csv,29307909,por suministro,202505,668,353204,usado
-reporte Datos Abiertos 09-2025.csv,29816331,por suministro,202509,665,355145,usado
+reporte Datos Abiertos 05-2025.csv,28954704,por suministro,202505,668,353204,usado
+reporte Datos Abiertos 09-2025.csv,29461185,por suministro,202509,665,355145,usado

@@ -15,7 +15,9 @@ TRABAJO FINAL/
 ├── 02_eda.ipynb              ← descriptiva, tarifas, territorio, Lorenz/Gini, indicadores, K-Means
 ├── 03_distribuciones.ipynb   ← ajuste de distribuciones, indicadores probabilísticos, anomalías
 ├── app.py                    ← dashboard en Dash
-└── assets/style.css          ← estilos del dashboard
+├── assets/style.css          ← estilos del dashboard
+├── exportar_html.py          ← genera tablero_electropuno.html (versión que se abre sin Python)
+└── tablero_electropuno.html  ← tablero exportado, listo para presentar o enviar
 ```
 
 ## Cómo cargar más datos
@@ -46,14 +48,26 @@ python app.py        # abrir http://127.0.0.1:8050
 - Dashboard, pestaña **Resumen gerencial**: los 12 KPIs filtrables, variación vs mes anterior, hallazgos automáticos y ficha técnica.
 
 ## Dashboard
-- **Filtros:** periodo, provincia, grupo tarifario e indicador del mapa.
+- **Filtros:** año, provincia, distrito y grupo tarifario. Un clic en los gráficos comparativos agrega o quita
+  esa provincia, distrito o año del filtro.
+- **Paleta corporativa "azul petróleo"** validada para daltonismo y contraste; contexto en gris y selección en color (Gestalt).
 - **Resumen gerencial:** gráfico principal de energía mensual; estacionalidad comparable entre años; consumo por provincia y grupo tarifario; facturación y suministros por mes; cuatro KPIs principales y ocho indicadores complementarios desplegables, más hallazgos y concentración del ingreso.
 - **Territorio:** mapa coroplético por distrito (clic → ficha del distrito), top 15 y facturación por provincia.
 - **Tarifas:** participación por grupo tarifario, precio efectivo por tarifa, treemap provincia → distrito.
 - **Segmentos:** clusters K-Means de distritos (mapa, burbujas y perfil).
-- **Distribución y anomalías:** histograma con log-normal ajustada, IC 95 % bootstrap por provincia, tabla de alertas.
-- **Evolución temporal:** series mensuales por provincia (requiere ≥ 2 meses).
+- **Distribución y anomalías:** histograma con log-normal ajustada, IC 95 % bootstrap, dispersión consumo × precio
+  de las alertas, prioridad por provincia o distrito y cronología mensual. Controles en *Opciones de vista*.
+- **Evolución temporal:** tendencia frente al año anterior, calendario mes × año, trayectorias por provincia o
+  distrito (índice o valor real) y crecimiento entre años. Controles en *Opciones de vista*.
+- **Conclusiones:** conclusión general y tabla de hallazgos → decisión → plazo, ordenada por prioridad y
+  recalculada con los filtros.
 - Botón para **descargar** los datos filtrados en CSV.
+
+### Versión HTML (sin Python)
+```bash
+python exportar_html.py      # genera tablero_electropuno.html (~9 MB)
+```
+Incluye las 7 pestañas con un menú para cambiar de provincia; los controles internos usan su vista predeterminada.
 
 La comparación entre instalaciones nuevas y antiguas requiere un archivo de altas con identificador de suministro y fecha de instalación. Los datos abiertos de consumo actuales están agregados y no permiten separar instalaciones por antigüedad; el dashboard no los presenta como si fueran cohortes de instalaciones.
 
